@@ -1,0 +1,1 @@
+This project is a standalone, out-of-the-box runnable benchmark and soak-test demo for the trdient SDK, designed to evaluate its performance, stability, and resource usage when communicating with a TRON FullNode over gRPC.
