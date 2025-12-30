@@ -27,8 +27,8 @@ public class Main {
 
     // 2. trident client
     KeyPair keyPair = KeyPair.generate();
-    // ApiWrapper client = new ApiWrapper("127.0.0.1:50051", "127.0.0.1:50061", keyPair.toPrivateKey());
-    ApiWrapper client = new ApiWrapper("127.0.0.1:16669", "127.0.0.1:16670", keyPair.toPrivateKey());
+    ApiWrapper client = new ApiWrapper("127.0.0.1:50051", "127.0.0.1:50061", keyPair.toPrivateKey());
+
     // 3. load generator
     LoadGenerator generator = new LoadGenerator(registry, client);
     generator.start(1000); // 1000 QPS
