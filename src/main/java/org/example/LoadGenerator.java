@@ -38,14 +38,13 @@ public class LoadGenerator {
         latency.record(() -> {
           try {
             client.getNowBlock();
-            int r = random.nextInt(2);
+            int r = random.nextInt(5);
             switch (r) {
               case 0 -> client.getNowBlock();
               case 1 -> client.getBlock(false);
-//              case 2 -> client.getChainParameters();
-//              case 3 -> client.getBurnTRX();
-
-//              case 4 -> client.getContract("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
+              case 2 -> client.getChainParameters();
+              case 3 -> client.getBurnTRX();
+              case 4 -> client.getContract("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
             }
             success.increment();
           } catch (Exception e) {
