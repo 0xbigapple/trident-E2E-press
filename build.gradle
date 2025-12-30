@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation "io.grpc:grpc-netty-shaded:1.75.0"
+    implementation "io.grpc:grpc-protobuf:1.75.0"
+    implementation "io.grpc:grpc-stub:1.75.0"
+
+    implementation 'io.github.tronprotocol:trident:0.10.0'
+
+    implementation "io.micrometer:micrometer-core:1.13.2"
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    compileOnly "org.projectlombok:lombok:1.18.34"
+    annotationProcessor "org.projectlombok:lombok:1.18.34"
+    implementation "org.slf4j:slf4j-api:2.0.13"
+    implementation "org.slf4j:slf4j-simple:2.0.13"
+
+
+//    implementation "io.micrometer:micrometer-registry-logging:1.13.2"
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+application {
+    mainClass = "org.example.Main"
+    applicationDefaultJvmArgs = [
+            "-Dorg.slf4j.simpleLogger.defaultLogLevel=info",
+            "-Dorg.slf4j.simpleLogger.showThreadName=true",
+            "-Dorg.slf4j.simpleLogger.showDateTime=true"
+    ]
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs(
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseZGC",
+            "-Xlog:gc*:file=gc.log:time,level,tags"
+    )
+}
+
+test {
+    useJUnitPlatform()
+}
+shadowJar {
+    mergeServiceFiles()
+}
