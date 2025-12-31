@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.List;
 
-@Slf4j(topic = "press")
-public class MetricsReporterV2 {
+@Slf4j(topic = "reporter")
+public class MetricsReporterV2 implements AutoCloseable {
 
   private final MeterRegistry registry;
   private final ScheduledExecutorService scheduler;
@@ -36,6 +36,18 @@ public class MetricsReporterV2 {
 
   public void start() {
     scheduler.scheduleAtFixedRate(this::print, initialDelaySec, periodSec, TimeUnit.SECONDS);
+  }
+
+  @Override
+  public void close() {
+    log.info("Stopping metrics reporter...");
+    scheduler.shutdown();
+    try {
+      scheduler.awaitTermination(5, TimeUnit.SECONDS);
+    } catch (InterruptedException ignored) {
+    }
+    scheduler.shutdownNow();
+    log.info("Metrics reporter stopped.");
   }
 
   private void print() {
