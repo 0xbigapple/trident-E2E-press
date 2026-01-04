@@ -91,7 +91,7 @@ public class LoadGenerator implements AutoCloseable {
         success.increment();
       } catch (Exception e) {
         failure.increment();
-        log.debug("request failed", e);
+        log.warn("request failed", e);
       } finally {
         latency.record(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         inflight.decrementAndGet();
